@@ -1,0 +1,30 @@
+<<: !include secrets.yaml
+
+esphome:
+  name: $myname
+  build_path: .esphome/build/${myname}
+  comment: "Wireless MCU that could go in TechFire (MI-136)."
+  platformio_options: {}
+  includes: []
+  libraries: []
+  name_add_mac_suffix: false
+  project:
+    name: "nml.sensors"
+    version: "1.0.1"
+    
+esp32:
+  board: esp-wrover-kit
+  framework:
+    version: 1.0.6
+    source: ~3.10006.0
+    platform_version: platformio/espressif32 @ 3.5.0
+    type: arduino
+  variant: ESP32
+  
+<<: !include logger.yaml
+
+<<: !include api.yaml
+
+<<: !include ota.yaml
+
+<<: !include wifi.yaml

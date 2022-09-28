@@ -1,0 +1,6 @@
+ota:
+  password: $mypass
+  safe_mode: true
+  port: $my_ota_port
+  reboot_timeout: 5min
+  num_attempts: 10

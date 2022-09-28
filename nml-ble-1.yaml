@@ -1,0 +1,77 @@
+substitutions:
+  myname: nml-ble-1
+  mypass: !secret wifi_password
+  myssid: !secret wifi_ssid
+  mydomain: !secret wifi_domain
+  mykey: !secret wifi_encryption_key
+  my_ota_port: !secret wifi_ota_port
+  my_api_port: !secret wifi_api_port
+  
+esphome:
+  name: ${myname}
+  comment: "ESP-WROOM-32 that gets data from the DLink W320 in TechFire."
+  project:
+    name: "nml.sensors"
+    version: "1.0.1"
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    version: 1.0.6
+    source: ~3.10006.0
+    platform_version: platformio/espressif32 @ 3.5.0
+    type: arduino
+  variant: ESP32
+
+# Enable logging
+logger:
+
+<<: !include ota.yaml
+
+<<: !include api.yaml
+
+<<: !include wifi.yaml
+
+ble_client:
+  - mac_address: FF:FF:10:40:1E:DA
+    id: itag_white
+
+sensor:
+  - platform: ble_client
+    ble_client_id: itag_white
+    name: "iTag battery level"
+    service_uuid: '180f'
+    characteristic_uuid: '2a19'
+    icon: 'mdi:battery'
+    unit_of_measurement: '%'
+    
+  - platform: ble_client
+    ble_client_id: itag_white
+    name: "RSSI"
+    service_uuid: '1803'
+    characteristic_uuid: '2a06'
+    icon: 'mdi:credit-card-wireless'
+    unit_of_measurement: 'dB'
+    filters:
+        multiply: -1.0
+    
+esp32_ble_tracker:
+  on_ble_advertise:
+    - mac_address: FF:FF:10:40:1E:DA
+      then:
+        - lambda: |-
+            ESP_LOGD("ble_adv", "New BLE device");
+            ESP_LOGD("ble_adv", "  address: %s", x.address_str().c_str());
+            ESP_LOGD("ble_adv", "  name: %s", x.get_name().c_str());
+            ESP_LOGD("ble_adv", "  Advertised service UUIDs:");
+            for (auto uuid : x.get_service_uuids()) {
+                ESP_LOGD("ble_adv", "    - %s", uuid.to_string().c_str());
+            }
+            ESP_LOGD("ble_adv", "  Advertised service data:");
+            for (auto data : x.get_service_datas()) {
+                ESP_LOGD("ble_adv", "    - %s: (length %i)", data.uuid.to_string().c_str(), data.data.size());
+            }
+            ESP_LOGD("ble_adv", "  Advertised manufacturer data:");
+            for (auto data : x.get_manufacturer_datas()) {
+                ESP_LOGD("ble_adv", "    - %s: (length %i)", data.uuid.to_string().c_str(), data.data.size());
+            }

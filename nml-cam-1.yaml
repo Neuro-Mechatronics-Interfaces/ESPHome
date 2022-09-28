@@ -1,0 +1,46 @@
+substitutions:
+  myname: nml-cam-1
+  mypass: !secret wifi_password
+  myssid: !secret wifi_ssid
+  mydomain: !secret wifi_domain
+  mykey: !secret wifi_encryption_key
+  my_ota_port: !secret wifi_ota_port
+  my_api_port: !secret wifi_api_port
+
+esphome:
+  name: $myname
+  platform: ESP32
+  board: esp32dev
+  comment: "ESP32-CAM board for cynos."
+  name_add_mac_suffix: false
+  project:
+    name: "nml.sensors"
+    version: "1.0.1"
+    
+esp32_camera:
+  external_clock:
+    pin: GPIO0
+    frequency: 20MHz
+  i2c_pins:
+    sda: GPIO26
+    scl: GPIO27
+  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
+  vsync_pin: GPIO25
+  href_pin: GPIO23
+  max_framerate: 30 fps
+  idle_framerate: 0.1 fps
+  pixel_clock_pin: GPIO22
+  power_down_pin: GPIO32
+  name: Dispenser-0 Camera
+  
+<<: !include api.yaml
+
+<<: !include ota.yaml
+
+<<: !include wifi.yaml
+
+switch:
+    platform: gpio
+    pin: GPIO4
+    name: Virgil-Cam Flash
+    icon: mdi:flash

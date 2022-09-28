@@ -1,0 +1,110 @@
+substitutions:
+  myname: nml-cynos-0
+  mypass: !secret wifi_password
+  myssid: !secret wifi_ssid
+  mydomain: !secret wifi_domain
+  mykey: !secret wifi_encryption_key
+  my_ota_port: !secret wifi_ota_port
+  my_api_port: !secret wifi_api_port
+  
+esphome:
+  name: $myname
+  build_path: .esphome/build/${myname}
+  comment: "ESP8266 board with pushbutton that I'd like to put in the BRIDGE room with cynos."
+  platformio_options: {}
+  includes: []
+  libraries: []
+  name_add_mac_suffix: false
+  project:
+    name: "nml.sensors"
+    version: "1.0.1"
+    
+esp8266:
+  board: nodemcu
+  framework:
+    version: 3.0.2
+    source: ~3.30002.0
+    platform_version: platformio/espressif8266 @ 3.2.0
+  restore_from_flash: false
+  early_pin_init: true
+  board_flash_mode: dio
+  
+api:
+  encryption:
+    key: $mykey
+  port: $my_api_port
+  password: $mypass
+  reboot_timeout: 15min
+  services:
+    - service: control_stepper
+      variables:
+        target: int
+      then:
+        - stepper.set_target:
+            id: cynos_biscuits_0
+            target: !lambda 'return target;'
+
+<<: !include ota.yaml
+
+wifi:
+  domain: $mydomain
+  reboot_timeout: 15min
+  power_save_mode: NONE
+  fast_connect: false
+  output_power: 20.0
+  networks:
+  - ssid: $myssid
+    priority: 0.0
+  use_address: nml-cynos${mydomain}
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "NML-Bridge-Hotspot"
+    password: $mypass
+captive_portal: {}
+stepper:
+  - platform: a4988
+    id: cynos_biscuits_0
+    step_pin: D3
+    dir_pin: D8
+    max_speed: 40 steps/s
+    acceleration: 100 steps/s^2
+    deceleration: 100 steps/s^2
+switch:
+- platform: gpio
+  name: $myname blue led
+  id: cynos_blue_led_0
+  device_class: switch
+  internal: false
+  icon: mdi:led-off
+  inverted: true
+  pin: D4
+  on_turn_on:
+    then:
+      - stepper.report_position:
+          id: cynos_biscuits_0
+          position: 0
+      - stepper.set_target:
+          id: cynos_biscuits_0
+          target: 40
+binary_sensor:
+- platform: gpio
+  name: Test
+  pin:
+    number: D5
+    mode:
+      input: true
+      pullup: true
+      analog: false
+      output: false
+      open_drain: false
+      pulldown: false
+    inverted: true
+  filters:
+  - delayed_on: 100ms
+  disabled_by_default: false
+  on_press:
+    then:
+      - switch.turn_on: cynos_blue_led_0
+  on_release:
+    then:
+      - switch.turn_off: cynos_blue_led_0

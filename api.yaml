@@ -1,0 +1,7 @@
+# Enable Home Assistant API
+api:
+  encryption:
+    key: $mykey
+  port: $my_api_port
+  password: $mypass
+  reboot_timeout: 15min

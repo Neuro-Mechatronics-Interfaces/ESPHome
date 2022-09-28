@@ -1,0 +1,138 @@
+substitutions:
+  myname: nml-office-0
+  mypass: !secret wifi_password
+  myssid: !secret wifi_ssid
+  mydomain: !secret wifi_domain
+  mykey: !secret wifi_encryption_key
+  my_ota_port: !secret wifi_ota_port
+  my_api_port: !secret wifi_api_port
+  
+esphome:
+  name: $myname
+  comment: "ESP-WROOM-32 on breadboard with pushbutton and LED for simple benchtop testing."
+  project:
+    name: "nml.sensors"
+    version: "1.0.1"
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    version: 1.0.6
+    source: ~3.10006.0
+    platform_version: platformio/espressif32 @ 3.5.0
+    type: arduino
+  variant: ESP32
+
+# Enable logging
+logger:
+
+<<: !include ota.yaml
+
+<<: !include api.yaml
+
+<<: !include wifi.yaml
+
+switch:
+  - platform: gpio
+    name: "Light-Cycle Indicator"
+    pin: GPIO26
+    icon: "mdi:led-on"
+    device_class: "switch"
+    entity_category: "diagnostic"
+    id: "led"
+    
+sensor:    
+  - platform: adc
+    pin: GPIO34
+    name: Illuminance - Cynos
+    accuracy_decimals: 3
+    update_interval: 1s
+    unit_of_measurement: "lx"
+    raw: false
+    attenuation: auto
+    filters:
+        - exponential_moving_average: 
+            alpha: 0.5
+            send_every: 2
+            send_first_at: 1
+        - lambda: return  150.0 * (3.3 - x)/3.3;
+    on_value_range:
+      - above: 40.0
+        then:
+          - switch.turn_on: "led"
+      - below: 40.0
+        then:
+          - switch.turn_off: "led"
+    id: light
+    device_class: "illuminance"
+    state_class: "measurement"
+    
+  - platform: dht
+    pin: GPIO13
+    temperature:
+      name: "Room Temperature - Cynos"
+      id: temperature
+      icon: "mdi:home-thermometer"
+      device_class: "temperature"
+      state_class: "measurement"
+      accuracy_decimals: 1
+      unit_of_measurement: "°F"
+      filters:
+        - sliding_window_moving_average:
+            window_size: 15
+            send_every: 15
+        - lambda: return x * (9.0/5.0) + 32.0;
+    humidity:
+      name: "Humidity - Cynos"
+      id: humidity
+      icon: "mdi:water-percent"
+      device_class: "humidity"
+      state_class: "measurement"
+      accuracy_decimals: 1
+      unit_of_measurement: "%"
+      filters: 
+        - sliding_window_moving_average:
+            window_size: 15
+            send_every: 15
+    update_interval: 5s
+    model: DHT11
+    
+  - platform: dht
+    pin: GPIO12
+    temperature:
+      name: "Room Temperature - Cynos2"
+      id: temperature2
+      icon: "mdi:home-thermometer"
+      device_class: "temperature"
+      state_class: "measurement"
+      accuracy_decimals: 1
+      unit_of_measurement: "°F"
+      filters:
+        - sliding_window_moving_average:
+            window_size: 15
+            send_every: 15
+        - lambda: return x * (9.0/5.0) + 32.0;
+    humidity:
+      name: "Humidity - Cynos2"
+      id: humidity2
+      icon: "mdi:water-percent"
+      device_class: "humidity"
+      state_class: "measurement"
+      accuracy_decimals: 1
+      unit_of_measurement: "%"
+      filters: 
+        - sliding_window_moving_average:
+            window_size: 15
+            send_every: 15
+    update_interval: 5s
+    model: DHT22
+
+binary_sensor:
+  - platform: gpio
+    name: "Test Pushbutton"
+    pin:
+      number: GPIO27
+      inverted: true
+      mode:
+        input: true
+        pullup: true
