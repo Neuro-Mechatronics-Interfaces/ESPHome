@@ -1,3 +1,5 @@
+<<: !include secrets.yaml
+
 ota:
   password: $mypass
   safe_mode: true

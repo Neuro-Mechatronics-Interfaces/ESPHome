@@ -1,7 +1,8 @@
+<<: !include secrets.yaml
+
 wifi:
   domain: $mydomain
   reboot_timeout: 15min
-  power_save_mode: NONE
   fast_connect: false
   output_power: 20.0
   networks:

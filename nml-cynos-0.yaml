@@ -21,13 +21,10 @@ esp8266:
   restore_from_flash: false
   early_pin_init: true
   board_flash_mode: dio
-  
+
+<<: !include api.yaml
+
 api:
-  encryption:
-    key: $mykey
-  port: $my_api_port
-  password: $mypass
-  reboot_timeout: 15min
   services:
     - service: control_stepper
       variables:
@@ -39,21 +36,8 @@ api:
 
 <<: !include ota.yaml
 
-wifi:
-  domain: $mydomain
-  reboot_timeout: 15min
-  power_save_mode: NONE
-  fast_connect: false
-  output_power: 20.0
-  networks:
-  - ssid: $myssid
-    priority: 0.0
-  use_address: nml-cynos${mydomain}
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "NML-Bridge-Hotspot"
-    password: $mypass
-captive_portal: {}
+<<: !include wifi.yaml
+
 stepper:
   - platform: a4988
     id: cynos_biscuits_0
