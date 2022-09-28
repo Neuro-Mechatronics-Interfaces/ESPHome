@@ -1,0 +1,113 @@
+<<: !include secrets.yaml
+
+esphome:
+  name: $myname
+  build_path: .esphome/build/${myname}
+  comment: "Wireless MCU for sync devices (presumably in Wean)."
+  platformio_options: {}
+  includes: []
+  libraries: []
+  name_add_mac_suffix: false
+  project:
+    name: "nml.sensors"
+    version: "1.0.1"
+
+esp8266:
+  board: nodemcu
+
+<<: !include api.yaml
+
+<<: !include ota.yaml
+
+<<: !include wifi.yaml
+   
+switch:
+  - platform: gpio
+    pin: 
+        number: GPIO2
+        inverted: true
+        mode:
+            output: true
+    name: ${devicename} Blue LED Debug Output
+    icon: mdi:led-on
+
+binary_sensor:    
+  - platform: gpio
+    pin: 
+        number: GPIO5
+        inverted: true
+        mode:
+            input: true
+            pullup: false 
+    name: ${devicename} TTL-0
+    icon: mdi:switch
+
+  - platform: gpio
+    pin: 
+        number: GPIO4
+        inverted: true
+        mode:
+            input: true
+            pullup: false 
+    name: ${devicename} TTL-1
+    icon: mdi:switch
+        
+  - platform: gpio
+    pin: 
+        number: GPIO14
+        inverted: true
+        mode:
+            input: true
+            pullup: false 
+    name: ${devicename} TTL-2
+    icon: mdi:switch
+        
+  - platform: gpio
+    pin: 
+        number: GPIO12
+        inverted: true
+        mode:
+            input: true
+            pullup: false 
+    name: ${devicename} TTL-3
+    icon: mdi:switch
+
+  - platform: gpio
+    pin: 
+        number: GPIO13
+        inverted: true
+        mode:
+            input: true
+            pullup: false 
+    name: ${devicename} TTL-4
+    icon: mdi:switch
+
+  - platform: gpio
+    pin: 
+        number: GPIO3
+        inverted: true
+        mode:
+            input: true
+            pullup: false 
+    name: ${devicename} TTL-5
+    icon: mdi:switch
+
+  - platform: gpio
+    pin: 
+        number: GPIO10
+        inverted: true
+        mode:
+            input: true
+            pullup: false 
+    name: ${devicename} TTL-6
+    icon: mdi:switch
+
+  - platform: gpio
+    pin: 
+        number: GPIO9
+        inverted: true
+        mode:
+            input: true
+            pullup: false
+    name: ${devicename} TTL-7
+    icon: mdi:switch       
