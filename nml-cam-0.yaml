@@ -2,14 +2,9 @@ substitutions:
   myname: nml-cam-0
 
 esphome:
-  name: $myname
   platform: ESP32
   board: esp32dev
   comment: "ESP32-CAM board for development purposes."
-  name_add_mac_suffix: false
-  project:
-    name: "nml.sensors"
-    version: "1.0.1"
     
 esp32_camera:
   external_clock:
@@ -28,6 +23,7 @@ esp32_camera:
   name: 115L-Camera
 
 packages:
+  esphome: !include ./esphome.yaml
   api: !include ./api.yaml
   ota: !include ./ota.yaml
   wifi: !include ./wifi.yaml

@@ -1,11 +1,8 @@
 <<: !include secrets.yaml
 
 esphome:
-  name: ${myname}
   comment: "ESP-WROOM-32 that gets data from the DLink W320 in TechFire."
-  project:
-    name: "nml.sensors"
-    version: "1.0.1"
+
 
 esp32:
   board: nodemcu-32s
@@ -17,6 +14,7 @@ esp32:
   variant: ESP32
 
 packages:
+  esphome: !include ./esphome.yaml
   api: !include ./api.yaml
   ota: !include ./ota.yaml
   wifi: !include ./wifi.yaml

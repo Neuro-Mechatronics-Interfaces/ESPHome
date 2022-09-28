@@ -1,0 +1,10 @@
+esphome:
+  name: $myname
+  build_path: .esphome/build/${myname}
+  platformio_options: {}
+  includes: []
+  libraries: []
+  name_add_mac_suffix: false
+  project:
+    name: "nml.sensors"
+    version: "1.2.0"

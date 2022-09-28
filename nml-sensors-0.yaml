@@ -2,16 +2,7 @@ substitutions:
   myname: nml-sensors-0
 
 esphome:
-  name: $myname
-  build_path: .esphome/build/${myname}
   comment: "Wireless MCU for sync devices (presumably in Wean)."
-  platformio_options: {}
-  includes: []
-  libraries: []
-  name_add_mac_suffix: false
-  project:
-    name: "nml.sensors"
-    version: "1.0.1"
   on_boot:
     priority: 800.0
     then:
@@ -21,6 +12,7 @@ esp8266:
   board: nodemcu
 
 packages:
+  esphome: !include ./esphome.yaml
   api: !include ./api.yaml
   ota: !include ./ota.yaml
   wifi: !include ./wifi.yaml

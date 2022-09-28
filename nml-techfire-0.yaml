@@ -2,16 +2,7 @@ substitutions:
   myname: nml-techfire-0
 
 esphome:
-  name: $myname
-  build_path: .esphome/build/${myname}
   comment: "Wireless MCU that could go in TechFire (MI-136)."
-  platformio_options: {}
-  includes: []
-  libraries: []
-  name_add_mac_suffix: false
-  project:
-    name: "nml.sensors"
-    version: "1.0.1"
     
 esp32:
   board: esp-wrover-kit
@@ -23,6 +14,7 @@ esp32:
   variant: ESP32
 
 packages:
+  esphome: !include ./esphome.yaml
   api: !include ./api.yaml
   ota: !include ./ota.yaml
   wifi: !include ./wifi.yaml
