@@ -1,11 +1,4 @@
-substitutions:
-  myname: nml-cam-0
-  mypass: !secret wifi_password
-  myssid: !secret wifi_ssid
-  mydomain: !secret wifi_domain
-  mykey: !secret wifi_encryption_key
-  my_ota_port: !secret wifi_ota_port
-  my_api_port: !secret wifi_api_port
+<<: !include secrets.yaml
 
 esphome:
   name: $myname

@@ -1,12 +1,5 @@
-substitutions:
-  myname: nml-ble-1
-  mypass: !secret wifi_password
-  myssid: !secret wifi_ssid
-  mydomain: !secret wifi_domain
-  mykey: !secret wifi_encryption_key
-  my_ota_port: !secret wifi_ota_port
-  my_api_port: !secret wifi_api_port
-  
+<<: !include secrets.yaml
+
 esphome:
   name: ${myname}
   comment: "ESP-WROOM-32 that gets data from the DLink W320 in TechFire."
