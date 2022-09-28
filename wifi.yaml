@@ -1,17 +1,15 @@
-<<: !include secrets.yaml
-
 wifi:
-  domain: $mydomain
+  domain: .wifi.local.cmu.edu
   reboot_timeout: 15min
   fast_connect: false
   output_power: 20.0
   networks:
-  - ssid: $myssid
+  - ssid: CMU-DEVICE
     priority: 0.0
-  use_address: ${myname}${mydomain}
+  use_address: ${myname}.wifi.local.cmu.edu
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "NML-Hotspot"
-    password: $mypass
+    password: !secret mypass
     
 captive_portal:

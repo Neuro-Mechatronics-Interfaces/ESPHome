@@ -25,12 +25,12 @@ esp32_camera:
   pixel_clock_pin: GPIO22
   power_down_pin: GPIO32
   name: Dispenser-0 Camera
-  
-<<: !include api.yaml
 
-<<: !include ota.yaml
-
-<<: !include wifi.yaml
+packages:
+  api: !include ./api.yaml
+  ota: !include ./ota.yaml
+  wifi: !include ./wifi.yaml
+  logger: !include ./logger.yaml
 
 switch:
     platform: gpio

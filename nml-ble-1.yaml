@@ -16,14 +16,11 @@ esp32:
     type: arduino
   variant: ESP32
 
-# Enable logging
-logger:
-
-<<: !include ota.yaml
-
-<<: !include api.yaml
-
-<<: !include wifi.yaml
+packages:
+  api: !include ./api.yaml
+  ota: !include ./ota.yaml
+  wifi: !include ./wifi.yaml
+  logger: !include ./logger.yaml
 
 ble_client:
   - mac_address: FF:FF:10:40:1E:DA

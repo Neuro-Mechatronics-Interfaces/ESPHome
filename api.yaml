@@ -1,9 +1,7 @@
-<<: !include secrets.yaml
-
 # Enable Home Assistant API
 api:
   encryption:
-    key: $mykey
-  port: $my_api_port
-  password: $mypass
+    key: !secret mykey
+  port: 6053
+  password: !secret mypass
   reboot_timeout: 15min

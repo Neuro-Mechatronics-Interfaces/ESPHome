@@ -1,8 +1,6 @@
-<<: !include secrets.yaml
-
 ota:
-  password: $mypass
+  password: !secret mypass
   safe_mode: true
-  port: $my_ota_port
+  port: 8266
   reboot_timeout: 5min
   num_attempts: 10

@@ -22,7 +22,11 @@ esp8266:
   early_pin_init: true
   board_flash_mode: dio
 
-<<: !include api.yaml
+packages:
+  api: !include ./api.yaml
+  ota: !include ./ota.yaml
+  wifi: !include ./wifi.yaml
+  logger: !include ./logger.yaml
 
 api:
   services:
@@ -33,10 +37,6 @@ api:
         - stepper.set_target:
             id: cynos_biscuits_0
             target: !lambda 'return target;'
-
-<<: !include ota.yaml
-
-<<: !include wifi.yaml
 
 stepper:
   - platform: a4988

@@ -1,4 +1,5 @@
-<<: !include secrets.yaml
+substitutions:
+  myname: nml-techfire-0
 
 esphome:
   name: $myname
@@ -20,11 +21,9 @@ esp32:
     platform_version: platformio/espressif32 @ 3.5.0
     type: arduino
   variant: ESP32
-  
-<<: !include logger.yaml
 
-<<: !include api.yaml
-
-<<: !include ota.yaml
-
-<<: !include wifi.yaml
+packages:
+  api: !include ./api.yaml
+  ota: !include ./ota.yaml
+  wifi: !include ./wifi.yaml
+  logger: !include ./logger.yaml

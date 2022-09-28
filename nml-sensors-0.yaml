@@ -1,4 +1,5 @@
-<<: !include secrets.yaml
+substitutions:
+  myname: nml-sensors-0
 
 esphome:
   name: $myname
@@ -11,103 +12,108 @@ esphome:
   project:
     name: "nml.sensors"
     version: "1.0.1"
+  on_boot:
+    priority: 800.0
+    then:
+      - switch.turn_off: syncd
 
 esp8266:
   board: nodemcu
 
-<<: !include api.yaml
-
-<<: !include ota.yaml
-
-<<: !include wifi.yaml
+packages:
+  api: !include ./api.yaml
+  ota: !include ./ota.yaml
+  wifi: !include ./wifi.yaml
+  logger: !include ./logger.yaml
    
 switch:
   - platform: gpio
     pin: 
         number: GPIO2
-        inverted: true
+        inverted: false
         mode:
             output: true
-    name: ${devicename} Blue LED Debug Output
+    name: ${myname} Blue LED Debug Output
     icon: mdi:led-on
+    id: syncd
 
 binary_sensor:    
   - platform: gpio
     pin: 
         number: GPIO5
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false 
-    name: ${devicename} TTL-0
+    name: ${myname} TTL-0
     icon: mdi:switch
 
   - platform: gpio
     pin: 
         number: GPIO4
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false 
-    name: ${devicename} TTL-1
+    name: ${myname} TTL-1
     icon: mdi:switch
         
   - platform: gpio
     pin: 
         number: GPIO14
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false 
-    name: ${devicename} TTL-2
+    name: ${myname} TTL-2
     icon: mdi:switch
         
   - platform: gpio
     pin: 
         number: GPIO12
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false 
-    name: ${devicename} TTL-3
+    name: ${myname} TTL-3
     icon: mdi:switch
 
   - platform: gpio
     pin: 
         number: GPIO13
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false 
-    name: ${devicename} TTL-4
+    name: ${myname} TTL-4
     icon: mdi:switch
 
   - platform: gpio
     pin: 
         number: GPIO3
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false 
-    name: ${devicename} TTL-5
+    name: ${myname} TTL-5
     icon: mdi:switch
 
   - platform: gpio
     pin: 
         number: GPIO10
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false 
-    name: ${devicename} TTL-6
+    name: ${myname} TTL-6
     icon: mdi:switch
 
   - platform: gpio
     pin: 
         number: GPIO9
-        inverted: true
+        inverted: false
         mode:
             input: true
             pullup: false
-    name: ${devicename} TTL-7
+    name: ${myname} TTL-7
     icon: mdi:switch       
