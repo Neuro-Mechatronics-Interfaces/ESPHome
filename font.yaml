@@ -1,0 +1,12 @@
+font:
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: font1
+    size: 12
+
+  - file: 'fonts/OpenSans-Bold.ttf'
+    id: font2
+    size: 48
+
+  - file: 'fonts/OpenSans-Italic.ttf'
+    id: font3
+    size: 8

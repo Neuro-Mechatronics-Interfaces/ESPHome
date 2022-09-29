@@ -1,5 +1,6 @@
-<<: !include secrets.yaml
- 
+substitutions:
+  myname: nml-office
+  
 esphome:
   comment: "ESP-WROOM-32 on breadboard with pushbutton and LED for simple benchtop testing."
 

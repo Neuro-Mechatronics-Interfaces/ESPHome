@@ -1,5 +1,6 @@
-<<: !include secrets.yaml
-
+substitutions:
+  myname: nml-ble-1
+  
 esphome:
   comment: "ESP-WROOM-32 that gets data from the DLink W320 in TechFire."
 

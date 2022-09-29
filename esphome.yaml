@@ -7,4 +7,4 @@ esphome:
   name_add_mac_suffix: false
   project:
     name: "nml.sensors"
-    version: "1.2.0"
+    version: "1.2.1"

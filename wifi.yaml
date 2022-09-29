@@ -1,8 +1,8 @@
 wifi:
   domain: .wifi.local.cmu.edu
   reboot_timeout: 15min
-  fast_connect: false
-  output_power: 20.0
+  fast_connect: true
+  output_power: 16.0
   networks:
   - ssid: CMU-DEVICE
     priority: 0.0

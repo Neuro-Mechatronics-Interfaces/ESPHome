@@ -1,4 +1,5 @@
-<<: !include secrets.yaml
+substitutions:
+  myname: nml-cynos-0
 
 esphome:
   comment: "ESP8266 board with pushbutton that I'd like to put in the BRIDGE room with cynos."
