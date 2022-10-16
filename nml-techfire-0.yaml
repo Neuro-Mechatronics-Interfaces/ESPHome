@@ -1,5 +1,6 @@
 substitutions:
   myname: nml-techfire-0
+  myname_underscores: nml_techfire_0
 
 esphome:
   comment: "Wireless MCU that could go in TechFire (MI-136)."

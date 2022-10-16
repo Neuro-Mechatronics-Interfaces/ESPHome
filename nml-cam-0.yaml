@@ -1,5 +1,6 @@
 substitutions:
   myname: nml-cam-0
+  myname_underscores: nml_cam_0
 
 esphome:
   platform: ESP32
@@ -20,7 +21,9 @@ esp32_camera:
   power_down_pin: GPIO32
   max_framerate: 30 fps
   idle_framerate: 0.1 fps
-  name: 115L-Camera
+  name: 125k Booth Head-On View
+  id: ${myname_underscores}_video
+  icon: mdi:video  
 
 packages:
   esphome: !include ./esphome.yaml

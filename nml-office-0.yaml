@@ -1,0 +1,97 @@
+substitutions:
+  myname: nml-office-0
+  myname_underscores: nml_office_0
+
+esphome:
+  comment: "Wireless MCU for Max office (MI-115L)."
+
+esp8266:
+  board: nodemcu
+
+packages:
+  esphome: !include ./esphome.yaml
+  api: !include ./api.yaml
+  ota: !include ./ota.yaml
+  wifi: !include ./wifi.yaml
+  logger: !include ./logger.yaml
+    
+sensor:        
+  - platform: dht
+    pin: D6
+    temperature:
+      name: ${myname} Temperature DHT11
+      id: ${myname_underscores}_temperature
+      icon: "mdi:home-thermometer"
+      device_class: "temperature"
+      state_class: "measurement"
+      accuracy_decimals: 1
+      unit_of_measurement: "°F"
+      filters:                                                   
+        - sliding_window_moving_average:
+            window_size: 15
+            send_every: 15
+        - lambda: return x * (9.0/5.0) + 32.0;
+    humidity:
+      name: ${myname} Humidity DHT11
+      id: ${myname_underscores}_humidity
+      icon: "mdi:water-percent"
+      device_class: "humidity"
+      state_class: "measurement"
+      accuracy_decimals: 1
+      unit_of_measurement: "%"
+      filters: 
+        - sliding_window_moving_average:
+            window_size: 15
+            send_every: 15
+    update_interval: 5s
+    model: DHT11
+
+switch:
+  - platform: gpio
+    pin:
+      number: D4
+      mode:
+        output: true
+    name: ${myname} Indicator
+    id: ${myname_underscores}_indicator          
+    
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: D5
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    icon: mdi:signal-variant
+    name: ${myname} Sound Detected
+    id: ${myname_underscores}_sound_detected
+    device_class: sound
+    filters: 
+      - delayed_off: 1s
+      
+  - platform: gpio
+    pin: 
+      number: D7
+      mode: 
+        input: true
+        pullup: true
+      inverted: true
+    name: ${myname} Light
+    id: ${myname_underscores}_light
+    icon: mdi:lightbulb-question
+    publish_initial_state: true
+    device_class: light
+    filters: 
+      - delayed_on: 250ms
+      - delayed_off: 250ms
+    on_state:
+      if:
+        condition:
+          binary_sensor.is_on: ${myname_underscores}_light
+        then:
+          - switch.turn_off: ${myname_underscores}_indicator
+        else: 
+          - switch.turn_on: ${myname_underscores}_indicator
+          
+

@@ -1,5 +1,6 @@
 substitutions:
   myname: nml-cynos-0
+  myname_underscores: nml_cynos_0
 
 esphome:
   comment: "ESP8266 board with pushbutton that I'd like to put in the BRIDGE room with cynos."

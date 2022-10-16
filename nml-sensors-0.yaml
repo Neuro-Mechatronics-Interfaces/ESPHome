@@ -1,5 +1,6 @@
 substitutions:
   myname: nml-sensors-0
+  myname_underscores: nml_sensors_0
 
 esphome:
   comment: "Wireless MCU for sync devices (presumably in Wean)."

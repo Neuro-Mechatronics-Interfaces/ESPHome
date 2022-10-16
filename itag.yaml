@@ -1,0 +1,22 @@
+ble_client:
+  - mac_address: ${tag_address}
+    id: ${tag_name}
+
+sensor:
+  - platform: ble_client
+    ble_client_id: ${tag_name}
+    name: "iTag battery level"
+    service_uuid: '180f'
+    characteristic_uuid: '2a19'
+    icon: 'mdi:battery'
+    unit_of_measurement: '%'
+    
+  - platform: ble_client
+    ble_client_id: ${tag_name}
+    name: "RSSI"
+    service_uuid: '1803'
+    characteristic_uuid: '2a06'
+    icon: 'mdi:credit-card-wireless'
+    unit_of_measurement: 'dB'
+    filters:
+        multiply: -1.0
